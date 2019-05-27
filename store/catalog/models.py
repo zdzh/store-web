@@ -1,33 +1,18 @@
 from django.db import models
+from django.urls import reverse #Used to generate URLs by reversing the URL patterns
+import uuid # Required for unique book instances
 
-class MyModelName(models.Model):
+class Genre(models.Model):
     """
-    A typical class defining a model, derived from the Model class.
+    Model representing a book genre (e.g. Science Fiction, Non Fiction).
     """
-
-    # Fields
-    # max_length代表文本最大字符数，help_test代表帮助文本
-    my_field_name = models.CharField(max_length=20, help_text="Enter field documentation")
-    ...
-
-    # Metadata
-    class Meta: 
-        ordering = ["-my_field_name"]
-
-    # Methods
-    def get_absolute_url(self):
-         """
-         Returns the url to access a particular instance of MyModelName.
-         """
-         return reverse('model-detail-view', args=[str(self.id)])
+    name = models.CharField(max_length=200, help_text="Enter a book genre (e.g. Science Fiction, French Poetry etc.)")
     
     def __str__(self):
         """
-        String for representing the MyModelName object (in Admin site etc.)
+        String for representing the Model object (in Admin site etc.)
         """
-        return self.field_name
-
-from django.urls import reverse #Used to generate URLs by reversing the URL patterns
+        return self.name
 
 class Book(models.Model):
     """
@@ -56,8 +41,6 @@ class Book(models.Model):
         """
         return reverse('book-detail', args=[str(self.id)])
 
-import uuid # Required for unique book instances
-
 class BookInstance(models.Model):
     """
     Model representing a specific copy of a book (i.e. that can be borrowed from the library).
@@ -85,7 +68,6 @@ class BookInstance(models.Model):
         String for representing the Model object
         """
         return '%s (%s)' % (self.id,self.book.title)
-
 
 class Author(models.Model):
     """
